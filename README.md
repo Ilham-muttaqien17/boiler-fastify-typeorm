@@ -1,6 +1,6 @@
-# Boilerplate Express TypeORM
+# Boilerplate Fastify TypeORM
 
-A boilerplate for building REST APIs using **Express**, **TypeORM**, and **TypeScript**.
+A boilerplate for building REST APIs using **Fastify**, **TypeORM**, and **TypeScript**.
 
 ## Table of Contents
 
