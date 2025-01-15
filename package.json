@@ -1,0 +1,93 @@
+{
+  "name": "boilerplate_fastify_typeorm",
+  "version": "1.0.0",
+  "description": "Boilerplate for Fastify with TypeORM ",
+  "main": "main.ts",
+  "keywords": [
+    "fastify",
+    "typeorm",
+    "typescript",
+    "mysql"
+  ],
+  "author": "Ilham Muttaqien",
+  "engines": {
+    "node": ">=20.x"
+  },
+  "scripts": {
+    "prepare": "npx simple-git-hooks",
+    "typecheck": "tsc --noEmit",
+    "build": "npm run typecheck && npm run lint && rimraf dist && tsc",
+    "dev": "tsx watch main.ts",
+    "start": "NODE_ENV=production node -r module-alias/register ./dist/main.js",
+    "lint": "eslint .",
+    "commitlint": "commitlint --edit",
+    "entity:create": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm entity:create",
+    "migration:create": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm migration:create",
+    "migration:generate": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm migration:generate --pretty -d ./src/db/data-source.ts",
+    "migration:run": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm migration:run -d ./src/db/data-source.ts",
+    "migration:revert": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm migration:revert -d ./src/db/data-source.ts",
+    "migration:show": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm migration:show -d ./src/db/data-source.ts",
+    "seed:create": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm migration:create",
+    "seed:run": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm migration:run -d ./src/db/data-source-seeder.ts",
+    "seed:revert": "ts-node -r tsconfig-paths/register ./node_modules/.bin/typeorm migration:revert -d ./src/db/data-source-seeder.ts",
+    "db:create": "ts-node -r tsconfig-paths/register ./src/db/scripts/create-db.ts",
+    "db:drop": "ts-node -r tsconfig-paths/register ./src/db/scripts/drop-db.ts",
+    "db:refresh": "npm run db:drop && npm run db:create"
+  },
+  "_moduleAliases": {
+    "@src": "dist/src",
+    "@test": "dist/test",
+    "@config": "dist/config",
+    "@@": "./"
+  },
+  "dependencies": {
+    "@fastify/compress": "^8.0.1",
+    "@fastify/cors": "^10.0.2",
+    "@fastify/express": "^4.0.2",
+    "@fastify/formbody": "^8.0.2",
+    "@fastify/helmet": "^13.0.1",
+    "@fastify/multipart": "^9.0.2",
+    "bcrypt": "^5.1.1",
+    "dayjs": "^1.11.13",
+    "dotenv": "^16.4.7",
+    "fastify": "^5.2.1",
+    "fastify-plugin": "^5.0.1",
+    "ioredis": "^5.4.2",
+    "jsonwebtoken": "^9.0.2",
+    "module-alias": "^2.2.3",
+    "mysql2": "^3.12.0",
+    "pino-pretty": "^13.0.0",
+    "rate-limiter-flexible": "^5.0.4",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.20",
+    "typeorm-extension": "^3.6.3",
+    "xss": "^1.0.15",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.6.1",
+    "@commitlint/config-conventional": "^19.6.0",
+    "@stylistic/eslint-plugin-ts": "^2.13.0",
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^22.10.5",
+    "@typescript-eslint/eslint-plugin": "^8.19.1",
+    "@typescript-eslint/parser": "^8.19.1",
+    "eslint": "^9.18.0",
+    "lint-staged": "^15.3.0",
+    "prettier": "^3.4.2",
+    "rimraf": "^6.0.1",
+    "simple-git-hooks": "^2.11.1",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  },
+  "lint-staged": {
+    "*.ts": "eslint --fix"
+  },
+  "simple-git-hooks": {
+    "commit-msg": "npx commitlint --edit $1",
+    "pre-commit": "npx lint-staged"
+  }
+}
