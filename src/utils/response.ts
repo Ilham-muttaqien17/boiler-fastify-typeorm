@@ -4,6 +4,7 @@ import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
 import ResponseError from '@src/error';
 import { QueryFailedError, TypeORMError } from 'typeorm';
 import { RateLimiterRes } from 'rate-limiter-flexible';
+import env from '@config/index';
 
 interface SuccessResponse<T extends AnyType = AnyType> {
   statusCode: number;
@@ -32,12 +33,6 @@ const HttpResponse = {
       });
     }
 
-    if (err instanceof QueryFailedError || err instanceof TypeORMError) {
-      return rep.status(400).send({
-        message: err.message
-      });
-    }
-
     if (err instanceof RateLimiterRes) {
       rep.header('X-RateLimit-Retry-After', err.msBeforeNext / 1000);
       rep.header('X-RateLimit-Limit', rep.rateLimitPoint);
@@ -49,14 +44,17 @@ const HttpResponse = {
       });
     }
 
-    if (err instanceof TypeError) {
+    if (
+      (err instanceof QueryFailedError || err instanceof TypeORMError || err instanceof TypeError) &&
+      env.NODE_ENV === 'development'
+    ) {
       return rep.status(500).send({
         message: err.message
       });
     }
 
     return rep.status(500).send({
-      message: err?.message ?? 'Internal server error, please contact developer!'
+      message: 'Internal server error, please contact developer!'
     });
   }
 };
