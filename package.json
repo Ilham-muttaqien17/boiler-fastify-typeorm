@@ -47,6 +47,7 @@
     "@fastify/formbody": "^8.0.2",
     "@fastify/helmet": "^13.0.1",
     "@fastify/multipart": "^9.0.2",
+    "@fastify/static": "^8.0.4",
     "bcrypt": "^5.1.1",
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.7",

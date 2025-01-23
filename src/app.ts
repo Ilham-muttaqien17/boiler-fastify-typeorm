@@ -8,6 +8,8 @@ import { useMultipartFormData } from './utils/form-data';
 import routes from './routes';
 import requestId from './plugins/request-id';
 import rateLimiter from './plugins/rate-limiter';
+import fastifyStatic from '@fastify/static';
+import path from 'path';
 
 const app = Fastify({
   logger: loggerOptions
@@ -42,6 +44,13 @@ app.addHook('onRequest', sanitizer);
 
 /* Api Routes */
 app.register(routes, { prefix: '/api' });
+
+/* Serve static assets */
+app.register(fastifyStatic, {
+  root: path.join(__dirname, '../uploads'),
+  prefix: '/public',
+  index: false
+});
 
 /* Example of multipart/form-data */
 app.post('/upload', async (req: FastifyRequest, rep: FastifyReply) => {
