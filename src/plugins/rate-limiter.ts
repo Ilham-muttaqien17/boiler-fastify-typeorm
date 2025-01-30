@@ -24,6 +24,10 @@ function rateLimiter(
   const options = Object.assign({}, defaultOptions, opts);
 
   app.addHook('onRequest', (req, rep, next) => {
+    if (req.method === 'OPTIONS') {
+      return next();
+    }
+
     const rateLimitRedis = new RateLimiterRedis(options);
     rateLimitRedis
       .consume(req.ip as string)
