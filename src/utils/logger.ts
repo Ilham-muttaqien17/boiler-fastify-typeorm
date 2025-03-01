@@ -17,9 +17,11 @@ export const loggerOptions: PinoLoggerOptions = {
       env.NODE_ENV === 'production'
         ? {
             level: 'error',
-            target: 'pino/file',
+            target: 'pino-roll',
             options: {
-              destination: join(process.cwd(), `/logs/${useDayjs().format('YYYY-MM-DD')}.log`),
+              file: join(process.cwd(), `/logs/${useDayjs().format('YYYY-MM-DD')}`),
+              frequency: 'daily',
+              extension: '.log',
               mkdir: true
             }
           }
