@@ -2,7 +2,6 @@ import env from '@config/index';
 import type { PinoLoggerOptions } from 'fastify/types/logger';
 import { join } from 'path';
 import { type TransportPipelineOptions } from 'pino';
-import { useDayjs } from './dayjs';
 
 export const loggerOptions: PinoLoggerOptions = {
   transport: {
@@ -19,9 +18,10 @@ export const loggerOptions: PinoLoggerOptions = {
             level: 'error',
             target: 'pino-roll',
             options: {
-              file: join(process.cwd(), `/logs/${useDayjs().format('YYYY-MM-DD')}`),
+              file: join(process.cwd(), '/logs/error'),
               frequency: 'daily',
               extension: '.log',
+              dateFormat: 'yyyy-MM-dd',
               mkdir: true
             }
           }
