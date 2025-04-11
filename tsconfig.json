@@ -17,5 +17,13 @@
     "skipLibCheck": true,                                /* Skip type checking all .d.ts files. */
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
+  },
+  "include": [
+    "./**/*.ts"
+  ],
+  "exclude": ["node_modules", "*.spec.ts"],
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true
   }
 }
