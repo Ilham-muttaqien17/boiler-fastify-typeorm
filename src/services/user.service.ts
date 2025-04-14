@@ -1,7 +1,7 @@
-import { PASSWORD_REGEX } from '@src/constants';
 import dataSource from '@src/db/data-source';
 import { User } from '@src/db/entities/user.entity';
 import ResponseError from '@src/error';
+import { storeUserValidation } from '@src/schema/user.schema';
 import { omit } from '@src/utils/helper';
 import { buildPaginationParams } from '@src/utils/pagination';
 import { useValidator } from '@src/utils/validator';
@@ -10,23 +10,14 @@ import z from 'zod';
 
 const userRepository = dataSource.getRepository(User);
 
-const storeValidation = z.object({
-  email: z.string().trim().min(1, 'Is required').email('Is not valid'),
-  password: z
-    .string()
-    .trim()
-    .min(8)
-    .refine((val) => PASSWORD_REGEX.test(val), 'At least contain lower char, upper char & number')
-});
-
-type StoreUser = z.infer<typeof storeValidation>;
+type StoreUser = z.infer<typeof storeUserValidation>;
 
 async function create(req: FastifyRequest) {
   const { email, password } = req.body as { email: string; password: string };
 
   const parsedBody = useValidator<StoreUser>({
     data: { email, password },
-    schema: storeValidation
+    schema: storeUserValidation
   });
 
   const existingUser = await userRepository.findOne({
@@ -95,7 +86,7 @@ async function getDetail(req: FastifyRequest) {
 async function update(req: FastifyRequest) {
   const parsedBody = useValidator<StoreUser>({
     data: req.body,
-    schema: storeValidation
+    schema: storeUserValidation
   });
 
   const user = await getUser((req.params as Record<string, any>).id);
