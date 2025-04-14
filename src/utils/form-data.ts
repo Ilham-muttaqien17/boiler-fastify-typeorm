@@ -34,6 +34,9 @@ export async function useMultipartFormData<T = any>(req: FastifyRequest): Promis
 
       const fileObject = new File([fileBuffer], fieldPart.filename, { type: fieldPart.mimetype });
 
+      // Unlink file from temp dir
+      fs.unlinkSync(tempFilePath);
+
       /* Handle if value is array */
       if (formData[fieldPart.fieldname]) {
         formData[fieldPart.fieldname] = [...toArray(formData[fieldPart.fieldname], true), fileObject];
@@ -53,4 +56,17 @@ export async function useMultipartFormData<T = any>(req: FastifyRequest): Promis
   }
 
   return formData as T;
+}
+
+/**
+ * Check is Valid File Object
+ * @param data - data to check
+ * @returns boolean
+ */
+export function isMultipartFile(data: any): data is File {
+  if (typeof data !== 'object') {
+    return false;
+  }
+
+  return data instanceof File;
 }

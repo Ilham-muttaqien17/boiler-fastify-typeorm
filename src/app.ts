@@ -31,7 +31,12 @@ app.register(import('@fastify/cors'), {
 });
 
 /* Parse multipart/formdata */
-app.register(import('@fastify/multipart'));
+app.register(import('@fastify/multipart'), {
+  limits: {
+    // Set limit to Infinity
+    fileSize: Infinity
+  }
+});
 
 /* Parse x-www-form-urlencoded */
 app.register(import('@fastify/formbody'));
