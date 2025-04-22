@@ -22,7 +22,13 @@ app.register(requestId);
 app.register(import('@fastify/compress'));
 
 /* Secure Express by set HTTP response headers */
-app.register(import('@fastify/helmet'));
+app.register(import('@fastify/helmet'), {
+  crossOriginEmbedderPolicy: false,
+  contentSecurityPolicy: false,
+  crossOriginResourcePolicy: {
+    policy: 'cross-origin'
+  }
+});
 
 /* Configure CORS */
 app.register(import('@fastify/cors'), {

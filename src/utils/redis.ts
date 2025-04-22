@@ -20,7 +20,7 @@ export const useRedisClient = {
    * @param value
    * @param ex - duration in seconds
    */
-  setData: async (key: string, value: any, ex?: number) => {
+  setData: async (key: string, value: string, ex?: number) => {
     if (ex) return await redisClient.set(key, value, 'EX', ex);
     await redisClient.set(key, value);
   },

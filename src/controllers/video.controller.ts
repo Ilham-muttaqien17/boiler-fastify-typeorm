@@ -18,7 +18,12 @@ async function getVideoList(req: FastifyRequest, rep: FastifyReply) {
   });
 }
 
+async function getStream(req: FastifyRequest, rep: FastifyReply) {
+  await videoService.stream(req, rep);
+}
+
 export default {
   uploadVideo,
-  getVideoList
+  getVideoList,
+  getStream
 };
