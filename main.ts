@@ -17,18 +17,13 @@ process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
 
 (async () => {
   try {
-    app.listen(
-      {
-        host: env.APP_HOST,
-        port: env.APP_PORT
-      },
-      async (err) => {
-        if (err) throw err;
-        await dataSource.initialize();
-        app.log.info('Data source has been initialized');
-        app.log.info(`Environment: ${env.NODE_ENV}`);
-      }
-    );
+    await dataSource.initialize();
+    app.log.info('Data source has been initialized');
+    app.log.info(`Environment: ${env.NODE_ENV}`);
+    await app.listen({
+      host: env.APP_HOST,
+      port: env.APP_PORT
+    });
   } catch {
     process.kill(process.pid, 'SIGINT');
   }
