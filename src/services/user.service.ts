@@ -1,7 +1,7 @@
 import dataSource from '@src/db/data-source';
 import { User } from '@src/db/entities/user.entity';
 import ResponseError from '@src/error';
-import { storeUserValidation } from '@src/schema/user.schema';
+import { storeUserSchema, updatePartialUserSchema } from '@src/schema/user.schema';
 import { omit } from '@src/utils/helper';
 import { buildPaginationParams } from '@src/utils/pagination';
 import { useValidator } from '@src/utils/validator';
@@ -10,14 +10,15 @@ import z from 'zod';
 
 const userRepository = dataSource.getRepository(User);
 
-type StoreUser = z.infer<typeof storeUserValidation>;
+type StoreUser = z.infer<typeof storeUserSchema>;
+type UpdatePartialUser = z.infer<typeof updatePartialUserSchema>;
 
 async function create(req: FastifyRequest) {
   const { email, password } = req.body as { email: string; password: string };
 
   const parsedBody = useValidator<StoreUser>({
     data: { email, password },
-    schema: storeUserValidation
+    schema: storeUserSchema
   });
 
   const existingUser = await userRepository.findOne({
@@ -35,7 +36,7 @@ async function create(req: FastifyRequest) {
 
   const savedUser = await userRepository.save(user);
 
-  return omit<User>(savedUser, ['password']);
+  return omit<User>(savedUser, ['password', 'deleted_at']);
 }
 
 async function getUser(id: string) {
@@ -84,9 +85,9 @@ async function getDetail(req: FastifyRequest) {
 }
 
 async function update(req: FastifyRequest) {
-  const parsedBody = useValidator<StoreUser>({
+  const parsedBody = useValidator<UpdatePartialUser>({
     data: req.body,
-    schema: storeUserValidation
+    schema: updatePartialUserSchema
   });
 
   const user = await getUser((req.params as Record<string, any>).id);
@@ -96,7 +97,6 @@ async function update(req: FastifyRequest) {
   await queryRunner.startTransaction();
 
   try {
-    user.email = parsedBody?.email as string;
     user.password = parsedBody?.password as string;
     await queryRunner.manager.save(user);
 

@@ -33,3 +33,19 @@ export function omit<T extends Record<string, any>>(source: Record<string, any>,
     return prev;
   }, {}) as T;
 }
+
+/**
+ * Pick specific properties from object
+ * @param source - Source data in object
+ * @param key - Array of keys wants to delete
+ * @returns Object
+ */
+export function pick<T extends Record<string, any>>(source: Record<string, any>, keys: (keyof T)[]) {
+  return Object.keys(source).reduce((prev: Record<string, any>, curr) => {
+    if (keys.indexOf(curr) !== -1) {
+      prev[curr] = source[curr];
+    }
+
+    return prev;
+  }, {}) as T;
+}

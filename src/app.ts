@@ -10,6 +10,7 @@ import requestId from './plugins/request-id';
 import rateLimiter from './plugins/rate-limiter';
 import fastifyStatic from '@fastify/static';
 import path from 'path';
+import openApiDocs from './plugins/open-api';
 
 const app = Fastify({
   logger: loggerOptions
@@ -52,6 +53,9 @@ app.register(rateLimiter);
 
 /* Sanitize request data */
 app.addHook('onRequest', sanitizer);
+
+/* OpenAPI routes */
+app.register(openApiDocs);
 
 /* Api Routes */
 app.register(routes, { prefix: '/api' });

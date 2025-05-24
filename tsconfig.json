@@ -8,6 +8,7 @@
       "@src/*": ["src/*"],
       "@test/*": ["test/*"],
       "@config/*": ["config/*"],
+      "@docs/*": ["docs/*"],
       "@@/*": ["*"]
     },                                                   /* Specify a set of entries that re-map imports to additional lookup locations. */
     "outDir": "dist/",                                   /* Specify an output folder for all emitted files. */
