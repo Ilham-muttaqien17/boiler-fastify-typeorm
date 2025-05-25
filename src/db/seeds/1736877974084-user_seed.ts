@@ -10,7 +10,7 @@ export class UserSeed1736877974084 implements MigrationInterface {
     try {
       const user = new User();
       user.email = 'user@example.com';
-      user.password = 'user123';
+      user.password = '@User123';
       await userRepository.save(user);
 
       await queryRunner.commitTransaction();

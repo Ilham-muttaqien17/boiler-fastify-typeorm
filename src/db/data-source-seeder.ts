@@ -3,7 +3,7 @@ import env from '@config/index';
 import { join } from 'path';
 
 const dataSourceSeeder = new DataSource({
-  type: 'mysql',
+  type: 'postgres',
   host: env.DB_HOST,
   port: env.DB_PORT,
   username: env.DB_USERNAME,

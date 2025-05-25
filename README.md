@@ -17,9 +17,9 @@ Before running this application, ensure you have the following installed and con
    - Redis is used for caching or queue management.
    - Installation guide: [Redis Official Documentation](https://redis.io/docs/getting-started/installation/)
 
-2. **MySQL**:
-   - The application uses MySQL as the primary database.
-   - Installation guide: [MySQL Official Documentation](https://dev.mysql.com/doc/refman/9.0/en/installing.html)
+2. **PostgreSQL**:
+   - The application uses PostgreSQL as the primary database.
+   - Installation guide: [PostgreSQL Official Documentation](https://www.postgresql.org/download/)
 
 Ensure both services are running and accessible before proceeding with the installation steps.
 

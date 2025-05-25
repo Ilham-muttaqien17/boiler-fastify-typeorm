@@ -4,7 +4,7 @@ import { join } from 'path';
 import { redisOptions } from '@src/utils/redis';
 
 const dataSource = new DataSource({
-  type: 'mysql',
+  type: 'postgres',
   host: env.DB_HOST,
   port: env.DB_PORT,
   username: env.DB_USERNAME,

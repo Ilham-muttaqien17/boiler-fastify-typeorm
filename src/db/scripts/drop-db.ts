@@ -5,7 +5,7 @@ import app from '@src/app';
 (async () => {
   await dropDatabase({
     options: dataSource.options,
-    initialDatabase: 'app_db',
+    initialDatabase: 'template1',
     ifExist: true
   });
 
