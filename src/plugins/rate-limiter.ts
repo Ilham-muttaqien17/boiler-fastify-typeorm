@@ -1,8 +1,10 @@
-import type { FastifyInstance, HookHandlerDoneFunction } from 'fastify';
+import type { FastifyPluginCallback } from 'fastify';
 import fp from 'fastify-plugin';
 import { redisClient } from '@src/utils/redis';
 import { RateLimiterRedis } from 'rate-limiter-flexible';
 import type { IRateLimiterRedisOptions } from 'rate-limiter-flexible';
+
+type RateLimiterOptions = Partial<Omit<IRateLimiterRedisOptions, 'storeClient'>>;
 
 const defaultOptions: IRateLimiterRedisOptions = {
   storeClient: redisClient,
@@ -14,11 +16,7 @@ const defaultOptions: IRateLimiterRedisOptions = {
   keyPrefix: 'rate-limit'
 };
 
-function rateLimiter(
-  app: FastifyInstance,
-  opts: Omit<IRateLimiterRedisOptions, 'storeClient'>,
-  done: HookHandlerDoneFunction
-) {
+const rateLimiter: FastifyPluginCallback<RateLimiterOptions> = (app, opts, done) => {
   app.decorateReply('rateLimitPoint', 0);
 
   const options = Object.assign({}, defaultOptions, opts);
@@ -45,6 +43,6 @@ function rateLimiter(
   });
 
   done();
-}
+};
 
 export default fp(rateLimiter, { fastify: '5.x' });

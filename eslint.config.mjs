@@ -1,15 +1,18 @@
 import typescriptESLintPlugin from '@typescript-eslint/eslint-plugin';
 import typescriptESLintParser from '@typescript-eslint/parser';
-import stylisticTs from '@stylistic/eslint-plugin-ts';
+import stylistic from '@stylistic/eslint-plugin';
 
 const config = [
+  {
+    ignores: ['dist/**', 'node_modules/**']
+  },
   {
     languageOptions: {
       parser: typescriptESLintParser
     },
     plugins: {
       '@ts-eslint': typescriptESLintPlugin,
-      '@stylistic/ts': stylisticTs
+      '@stylistic/ts': stylistic
     },
     rules: {
       'no-unused-vars': 'error',

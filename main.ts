@@ -24,7 +24,8 @@ process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
       host: env.APP_HOST,
       port: env.APP_PORT
     });
-  } catch {
+  } catch (e) {
+    app.log.error(e);
     process.kill(process.pid, 'SIGINT');
   }
 })();
